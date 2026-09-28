@@ -14,7 +14,167 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          departure_id: string
+          guests: number
+          id: string
+          notes: string | null
+          reference: string
+          reminder_sent_at: string | null
+          status: string
+          total_price: number
+          tour_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          departure_id: string
+          guests?: number
+          id?: string
+          notes?: string | null
+          reference?: string
+          reminder_sent_at?: string | null
+          status?: string
+          total_price: number
+          tour_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          departure_id?: string
+          guests?: number
+          id?: string
+          notes?: string | null
+          reference?: string
+          reminder_sent_at?: string | null
+          status?: string
+          total_price?: number
+          tour_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_departure_id_fkey"
+            columns: ["departure_id"]
+            isOneToOne: false
+            referencedRelation: "departures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_tour_id_fkey"
+            columns: ["tour_id"]
+            isOneToOne: false
+            referencedRelation: "tours"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      departures: {
+        Row: {
+          created_at: string
+          departure_date: string
+          id: string
+          spots_taken: number
+          total_spots: number
+          tour_id: string
+        }
+        Insert: {
+          created_at?: string
+          departure_date: string
+          id?: string
+          spots_taken?: number
+          total_spots?: number
+          tour_id: string
+        }
+        Update: {
+          created_at?: string
+          departure_date?: string
+          id?: string
+          spots_taken?: number
+          total_spots?: number
+          tour_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "departures_tour_id_fkey"
+            columns: ["tour_id"]
+            isOneToOne: false
+            referencedRelation: "tours"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tours: {
+        Row: {
+          created_at: string
+          description: string
+          difficulty: string
+          duration_days: number
+          highlights: string[]
+          id: string
+          image_key: string
+          included: string[]
+          max_group_size: number
+          meeting_point: string
+          name: string
+          not_included: string[]
+          price_per_person: number
+          region: string
+          slug: string
+          sort_order: number
+          summary: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          difficulty: string
+          duration_days?: number
+          highlights?: string[]
+          id?: string
+          image_key: string
+          included?: string[]
+          max_group_size?: number
+          meeting_point?: string
+          name: string
+          not_included?: string[]
+          price_per_person: number
+          region: string
+          slug: string
+          sort_order?: number
+          summary: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          difficulty?: string
+          duration_days?: number
+          highlights?: string[]
+          id?: string
+          image_key?: string
+          included?: string[]
+          max_group_size?: number
+          meeting_point?: string
+          name?: string
+          not_included?: string[]
+          price_per_person?: number
+          region?: string
+          slug?: string
+          sort_order?: number
+          summary?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
