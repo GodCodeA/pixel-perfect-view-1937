@@ -62,6 +62,8 @@ function BookingFlow() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const queryClient = useQueryClient();
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -91,12 +93,21 @@ function BookingFlow() {
         name,
         email,
         phone,
+        whatsapp,
         guests,
         notes,
       });
+      void queryClient.invalidateQueries({ queryKey: ["departures"] });
+      void queryClient.invalidateQueries({ queryKey: ["dashboard-bookings"] });
       navigate({ to: "/booking/$reference", params: { reference } });
-    } catch {
-      toast.error("We couldn't save that booking. Please try again.");
+    } catch (err) {
+      if (err instanceof NotEnoughSpotsError) {
+        toast.error("Someone just booked those spots. Please pick another date or fewer guests.");
+        await queryClient.invalidateQueries({ queryKey: ["departures"] });
+        setStep(0);
+      } else {
+        toast.error("We couldn't save that booking. Please try again.");
+      }
       setSubmitting(false);
     }
   }
@@ -257,12 +268,22 @@ function BookingFlow() {
               </div>
             </div>
             <div>
-              <Label htmlFor="phone">Phone / WhatsApp</Label>
+              <Label htmlFor="phone">Phone</Label>
               <Input
                 id="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+996 555 000 000"
+                className="mt-1.5"
+              />
+            </div>
+            <div>
+              <Label htmlFor="whatsapp">WhatsApp (optional)</Label>
+              <Input
+                id="whatsapp"
+                value={whatsapp}
+                onChange={(e) => setWhatsapp(e.target.value)}
+                placeholder="If different from your phone"
                 className="mt-1.5"
               />
             </div>
@@ -296,6 +317,7 @@ function BookingFlow() {
                 ["Name", name],
                 ["Email", email],
                 ["Phone", phone],
+                ...(whatsapp ? ([["WhatsApp", whatsapp]] as [string, string][]) : []),
                 ...(notes ? ([["Notes", notes]] as [string, string][]) : []),
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between gap-6 py-3">
