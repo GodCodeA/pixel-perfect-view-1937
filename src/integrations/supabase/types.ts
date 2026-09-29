@@ -20,6 +20,7 @@ export type Database = {
           customer_email: string
           customer_name: string
           customer_phone: string
+          customer_whatsapp: string | null
           departure_id: string
           guests: number
           id: string
@@ -36,6 +37,7 @@ export type Database = {
           customer_email: string
           customer_name: string
           customer_phone: string
+          customer_whatsapp?: string | null
           departure_id: string
           guests?: number
           id?: string
@@ -52,6 +54,7 @@ export type Database = {
           customer_email?: string
           customer_name?: string
           customer_phone?: string
+          customer_whatsapp?: string | null
           departure_id?: string
           guests?: number
           id?: string
