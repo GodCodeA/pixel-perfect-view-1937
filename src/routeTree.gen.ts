@@ -10,12 +10,30 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as BookSlugRouteImport } from './routes/book.$slug'
+import { Route as BookingReferenceRouteImport } from './routes/booking.$reference'
 import { Route as ToursIndexRouteImport } from './routes/tours.index'
 import { Route as ToursSlugRouteImport } from './routes/tours.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookSlugRoute = BookSlugRouteImport.update({
+  id: '/book/$slug',
+  path: '/book/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingReferenceRoute = BookingReferenceRouteImport.update({
+  id: '/booking/$reference',
+  path: '/booking/$reference',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToursIndexRoute = ToursIndexRouteImport.update({
@@ -31,30 +49,61 @@ const ToursSlugRoute = ToursSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/book/$slug': typeof BookSlugRoute
+  '/booking/$reference': typeof BookingReferenceRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours/': typeof ToursIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/book/$slug': typeof BookSlugRoute
+  '/booking/$reference': typeof BookingReferenceRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours': typeof ToursIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/book/$slug': typeof BookSlugRoute
+  '/booking/$reference': typeof BookingReferenceRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours/': typeof ToursIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tours/$slug' | '/tours/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/book/$slug'
+    | '/booking/$reference'
+    | '/tours/$slug'
+    | '/tours/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tours/$slug' | '/tours'
-  id: '__root__' | '/' | '/tours/$slug' | '/tours/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/book/$slug'
+    | '/booking/$reference'
+    | '/tours/$slug'
+    | '/tours'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/book/$slug'
+    | '/booking/$reference'
+    | '/tours/$slug'
+    | '/tours/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  BookSlugRoute: typeof BookSlugRoute
+  BookingReferenceRoute: typeof BookingReferenceRoute
   ToursSlugRoute: typeof ToursSlugRoute
   ToursIndexRoute: typeof ToursIndexRoute
 }
@@ -66,6 +115,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book/$slug': {
+      id: '/book/$slug'
+      path: '/book/$slug'
+      fullPath: '/book/$slug'
+      preLoaderRoute: typeof BookSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/booking/$reference': {
+      id: '/booking/$reference'
+      path: '/booking/$reference'
+      fullPath: '/booking/$reference'
+      preLoaderRoute: typeof BookingReferenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tours/': {
@@ -87,6 +157,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  BookSlugRoute: BookSlugRoute,
+  BookingReferenceRoute: BookingReferenceRoute,
   ToursSlugRoute: ToursSlugRoute,
   ToursIndexRoute: ToursIndexRoute,
 }
