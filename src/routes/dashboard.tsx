@@ -50,7 +50,7 @@ const tabs = ["Today", "Upcoming", "All"] as const;
 function Dashboard() {
   const queryClient = useQueryClient();
   const { data: bookings, isLoading, isError } = useQuery(dashboardBookingsQuery);
-  const [tab, setTab] = useState<(typeof tabs)[number]>("Today");
+  const [tab, setTab] = useState<(typeof tabs)[number]>("Upcoming");
   const [rescheduling, setRescheduling] = useState<Row | null>(null);
 
   const invalidate = () => {

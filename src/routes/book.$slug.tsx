@@ -21,9 +21,8 @@ import { tourImage } from "@/lib/tour-images";
 type Search = { departure?: string };
 
 export const Route = createFileRoute("/book/$slug")({
-  validateSearch: (search: Record<string, unknown>): Search => ({
-    departure: typeof search["departure"] === "string" ? search["departure"] : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): Search =>
+    typeof search["departure"] === "string" ? { departure: search["departure"] } : {},
   head: ({ params }) => {
     const name = params.slug
       .split("-")

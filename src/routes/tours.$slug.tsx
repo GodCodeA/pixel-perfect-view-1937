@@ -193,7 +193,7 @@ function TourDetail() {
             <Link
               to="/book/$slug"
               params={{ slug: tour.slug }}
-              search={{ departure: undefined }}
+              search={{}}
               className="mt-5 block rounded-md bg-primary px-5 py-3 text-center text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]"
             >
               Check availability &amp; book
@@ -208,4 +208,3 @@ function TourDetail() {
   );
 }
 
-export { notFound };
