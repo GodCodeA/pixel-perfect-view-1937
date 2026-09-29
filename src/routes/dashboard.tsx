@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bell, CalendarDays, Mail, Phone, Users, X, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
@@ -55,7 +55,19 @@ function Dashboard() {
 
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ["dashboard-bookings"] });
+    void queryClient.invalidateQueries({ queryKey: ["departures"] });
   };
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("dashboard-bookings")
+      .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () => invalidate())
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const remind = useMutation({
     mutationFn: async (row: Row) => {
@@ -79,10 +91,6 @@ function Dashboard() {
         .update({ status: "cancelled" })
         .eq("id", row.id);
       if (error) throw error;
-      await supabase
-        .from("departures")
-        .update({ spots_taken: Math.max(0, row.departures.spots_taken - row.guests) })
-        .eq("id", row.departure_id);
     },
     onSuccess: () => {
       toast.success("Booking cancelled");
@@ -185,6 +193,9 @@ function Dashboard() {
                 <p className="inline-flex items-center gap-1.5 text-muted-foreground">
                   <Phone className="h-3.5 w-3.5" /> {row.customer_phone}
                 </p>
+                {row.customer_whatsapp ? (
+                  <p className="text-muted-foreground">WhatsApp: {row.customer_whatsapp}</p>
+                ) : null}
               </div>
             </div>
 
@@ -281,16 +292,12 @@ function RescheduleDialog({
       .update({ departure_id: target.id })
       .eq("id", row.id);
     if (error) {
-      toast.error("Couldn't move that booking.");
+      toast.error(
+        error.message.includes("NOT_ENOUGH_SPOTS")
+          ? "That date no longer has enough spots."
+          : "Couldn't move that booking.",
+      );
     } else {
-      await supabase
-        .from("departures")
-        .update({ spots_taken: Math.max(0, row.departures.spots_taken - row.guests) })
-        .eq("id", row.departure_id);
-      await supabase
-        .from("departures")
-        .update({ spots_taken: target.spots_taken + row.guests })
-        .eq("id", target.id);
       toast.success(`Moved to ${formatDate(target.departure_date)}`);
       onDone();
       onClose();

@@ -35,6 +35,7 @@ export type Booking = {
   customer_name: string;
   customer_email: string;
   customer_phone: string;
+  customer_whatsapp: string | null;
   guests: number;
   total_price: number;
   notes: string | null;
@@ -105,37 +106,39 @@ export const dashboardBookingsQuery = {
   },
 };
 
+export class NotEnoughSpotsError extends Error {}
+
 export async function createBooking(input: {
   tour: Tour;
   departure: Departure;
   name: string;
   email: string;
   phone: string;
+  whatsapp: string;
   guests: number;
   notes: string;
 }) {
+  // Remaining spots are updated (and overbooking blocked) by a database trigger.
   const { data, error } = await supabase
     .from("bookings")
     .insert({
       tour_id: input.tour.id,
       departure_id: input.departure.id,
-      customer_name: input.name,
-      customer_email: input.email,
-      customer_phone: input.phone,
+      customer_name: input.name.trim(),
+      customer_email: input.email.trim(),
+      customer_phone: input.phone.trim(),
+      customer_whatsapp: input.whatsapp.trim() || null,
       guests: input.guests,
       total_price: input.guests * input.tour.price_per_person,
-      notes: input.notes || null,
+      notes: input.notes.trim() || null,
       status: "confirmed",
     })
     .select("reference")
     .single();
-  if (error) throw error;
-
-  await supabase
-    .from("departures")
-    .update({ spots_taken: input.departure.spots_taken + input.guests })
-    .eq("id", input.departure.id);
-
+  if (error) {
+    if (error.message.includes("NOT_ENOUGH_SPOTS")) throw new NotEnoughSpotsError(error.message);
+    throw error;
+  }
   return data.reference as string;
 }
 
