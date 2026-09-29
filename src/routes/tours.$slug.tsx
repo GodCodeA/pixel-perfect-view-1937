@@ -208,4 +208,3 @@ function TourDetail() {
   );
 }
 
-export { notFound };
