@@ -26,7 +26,9 @@ export type Database = {
           id: string
           notes: string | null
           reference: string
+          reminder_error: string | null
           reminder_sent_at: string | null
+          reminder_status: string
           status: string
           total_price: number
           tour_id: string
@@ -43,7 +45,9 @@ export type Database = {
           id?: string
           notes?: string | null
           reference?: string
+          reminder_error?: string | null
           reminder_sent_at?: string | null
+          reminder_status?: string
           status?: string
           total_price: number
           tour_id: string
@@ -60,7 +64,9 @@ export type Database = {
           id?: string
           notes?: string | null
           reference?: string
+          reminder_error?: string | null
           reminder_sent_at?: string | null
+          reminder_status?: string
           status?: string
           total_price?: number
           tour_id?: string
@@ -87,6 +93,7 @@ export type Database = {
         Row: {
           created_at: string
           departure_date: string
+          departure_time: string
           id: string
           spots_taken: number
           total_spots: number
@@ -95,6 +102,7 @@ export type Database = {
         Insert: {
           created_at?: string
           departure_date: string
+          departure_time?: string
           id?: string
           spots_taken?: number
           total_spots?: number
@@ -103,6 +111,7 @@ export type Database = {
         Update: {
           created_at?: string
           departure_date?: string
+          departure_time?: string
           id?: string
           spots_taken?: number
           total_spots?: number
@@ -183,7 +192,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_due_reminders: {
+        Args: { _booking_id?: string }
+        Returns: {
+          id: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
