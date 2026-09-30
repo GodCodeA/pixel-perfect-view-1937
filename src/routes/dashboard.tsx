@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { Bell, CalendarDays, Mail, Phone, Users, X, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { sendReminderNow } from "@/lib/reminders.functions";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -69,16 +71,13 @@ function Dashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const sendReminder = useServerFn(sendReminderNow);
   const remind = useMutation({
-    mutationFn: async (row: Row) => {
-      const { error } = await supabase
-        .from("bookings")
-        .update({ reminder_sent_at: new Date().toISOString() })
-        .eq("id", row.id);
-      if (error) throw error;
-    },
-    onSuccess: (_d, row) => {
-      toast.success(`Reminder sent to ${row.customer_name}`);
+    mutationFn: (row: Row) => sendReminder({ data: { bookingId: row.id } }),
+    onSuccess: (res, row) => {
+      if (res.status === "sent") toast.success(`Reminder emailed to ${row.customer_name}`);
+      else if (res.status === "skipped") toast.info(res.error ?? "Nothing to send.");
+      else toast.error(`Reminder failed: ${res.error ?? "unknown error"}`);
       invalidate();
     },
     onError: () => toast.error("Couldn't send that reminder."),
@@ -230,9 +229,19 @@ function Dashboard() {
               >
                 <X className="h-4 w-4" /> Cancel
               </button>
-              {row.reminder_sent_at ? (
-                <span className="text-xs text-muted-foreground">
-                  Reminder sent {new Date(row.reminder_sent_at).toLocaleString("en-GB")}
+              {row.status !== "cancelled" ? (
+                <span
+                  className={`text-xs ${row.reminder_status === "failed" ? "text-destructive" : "text-muted-foreground"}`}
+                  title={row.reminder_error ?? undefined}
+                >
+                  Reminder:{" "}
+                  {row.reminder_status === "sent"
+                    ? `Sent${row.reminder_sent_at ? ` ${new Date(row.reminder_sent_at).toLocaleString("en-GB")}` : ""}`
+                    : row.reminder_status === "failed"
+                      ? "Failed"
+                      : row.reminder_status === "sending"
+                        ? "Sending…"
+                        : "Pending"}
                 </span>
               ) : null}
             </div>
