@@ -25,6 +25,7 @@ export type Departure = {
   departure_date: string;
   total_spots: number;
   spots_taken: number;
+  departure_time: string;
 };
 
 export type Booking = {
@@ -41,6 +42,8 @@ export type Booking = {
   notes: string | null;
   status: string;
   reminder_sent_at: string | null;
+  reminder_status: "pending" | "sending" | "sent" | "failed";
+  reminder_error: string | null;
   created_at: string;
 };
 
