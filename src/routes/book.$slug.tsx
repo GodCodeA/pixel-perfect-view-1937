@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { CalendarDays, Check, ChevronLeft, Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   createBooking,
+  NotEnoughSpotsError,
   departuresQuery,
   formatDate,
   spotsLeft,
