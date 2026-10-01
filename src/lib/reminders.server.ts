@@ -1,7 +1,7 @@
 // Server-only: sends booking reminder emails through Resend.
 // The database (claim_due_reminders) is the source of truth for duplicate prevention.
 
-type SendResult = { id: string; status: "sent" | "failed"; error?: string };
+type SendResult = { id: string; status: "sent" | "failed"; error?: string | undefined };
 
 const esc = (s: string) =>
   s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
