@@ -47,7 +47,7 @@ export async function processReminders(bookingId?: string): Promise<SendResult[]
     let err: string | undefined;
     try {
       const apiKey = process.env["RESEND_API_KEY"];
-      if (!apiKey) throw new Error("RESEND_API_KEY is not configured");
+      if (!apiKey) throw new Error("Email provider not configured — RESEND_API_KEY is missing. No email was sent.");
       if (!b) throw new Error("Booking not found");
       const t = b.tours as unknown as { name: string; meeting_point: string };
       const d = b.departures as unknown as { departure_date: string; departure_time: string };
