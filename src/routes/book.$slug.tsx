@@ -18,6 +18,11 @@ import {
   type Departure,
 } from "@/lib/bookings";
 import { tourImage } from "@/lib/tour-images";
+import {
+  validateBookingForm,
+  validateField,
+  type BookingField,
+} from "@/lib/booking-validation";
 
 type Search = { departure?: string };
 
@@ -67,13 +72,51 @@ function BookingFlow() {
   const queryClient = useQueryClient();
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<BookingField, string>>>({});
 
   const open = departures?.filter((d) => spotsLeft(d) > 0) ?? [];
   const departure: Departure | undefined = open.find((d) => d.id === departureId);
   const maxGuests = departure ? spotsLeft(departure) : 1;
   const total = tour ? guests * tour.price_per_person : 0;
 
-  const contactValid = name.trim().length > 1 && /\S+@\S+\.\S+/.test(email) && phone.trim().length > 5;
+  const formErrors = validateBookingForm({
+    name,
+    email,
+    phone,
+    whatsapp,
+    notes,
+    guests,
+    departureId,
+    maxGuests,
+  });
+  const contactValid =
+    !formErrors.name && !formErrors.email && !formErrors.phone && !formErrors.whatsapp && !formErrors.notes;
+  const guestsValid = !formErrors.guests;
+
+  function setField(field: BookingField, value: string, setter: (v: string) => void) {
+    setter(value);
+    // Clear the error as soon as the field becomes valid; show it once the field
+    // already has an error so corrections give immediate feedback.
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const message = validateField(field, value);
+      if (message === prev[field]) return prev;
+      const next = { ...prev };
+      if (message) next[field] = message;
+      else delete next[field];
+      return next;
+    });
+  }
+
+  function blurField(field: BookingField, value: string) {
+    const message = validateField(field, value);
+    setErrors((prev) => {
+      const next = { ...prev };
+      if (message) next[field] = message;
+      else delete next[field];
+      return next;
+    });
+  }
 
   if (isLoading || !tour) {
     return (
