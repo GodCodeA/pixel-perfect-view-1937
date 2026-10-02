@@ -15,7 +15,6 @@ import { Route as BookSlugRouteImport } from './routes/book.$slug'
 import { Route as BookingReferenceRouteImport } from './routes/booking.$reference'
 import { Route as ToursIndexRouteImport } from './routes/tours.index'
 import { Route as ToursSlugRouteImport } from './routes/tours.$slug'
-import { Route as ApiPublicHooksSendRemindersRouteImport } from './routes/api/public/hooks/send-reminders'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,12 +46,6 @@ const ToursSlugRoute = ToursSlugRouteImport.update({
   path: '/tours/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicHooksSendRemindersRoute =
-  ApiPublicHooksSendRemindersRouteImport.update({
-    id: '/api/public/hooks/send-reminders',
-    path: '/api/public/hooks/send-reminders',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,7 +54,6 @@ export interface FileRoutesByFullPath {
   '/booking/$reference': typeof BookingReferenceRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours/': typeof ToursIndexRoute
-  '/api/public/hooks/send-reminders': typeof ApiPublicHooksSendRemindersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,7 +62,6 @@ export interface FileRoutesByTo {
   '/booking/$reference': typeof BookingReferenceRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours': typeof ToursIndexRoute
-  '/api/public/hooks/send-reminders': typeof ApiPublicHooksSendRemindersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,7 +71,6 @@ export interface FileRoutesById {
   '/booking/$reference': typeof BookingReferenceRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours/': typeof ToursIndexRoute
-  '/api/public/hooks/send-reminders': typeof ApiPublicHooksSendRemindersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,7 +81,6 @@ export interface FileRouteTypes {
     | '/booking/$reference'
     | '/tours/$slug'
     | '/tours/'
-    | '/api/public/hooks/send-reminders'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,7 +89,6 @@ export interface FileRouteTypes {
     | '/booking/$reference'
     | '/tours/$slug'
     | '/tours'
-    | '/api/public/hooks/send-reminders'
   id:
     | '__root__'
     | '/'
@@ -109,7 +97,6 @@ export interface FileRouteTypes {
     | '/booking/$reference'
     | '/tours/$slug'
     | '/tours/'
-    | '/api/public/hooks/send-reminders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,7 +106,6 @@ export interface RootRouteChildren {
   BookingReferenceRoute: typeof BookingReferenceRoute
   ToursSlugRoute: typeof ToursSlugRoute
   ToursIndexRoute: typeof ToursIndexRoute
-  ApiPublicHooksSendRemindersRoute: typeof ApiPublicHooksSendRemindersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -166,13 +152,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToursSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/hooks/send-reminders': {
-      id: '/api/public/hooks/send-reminders'
-      path: '/api/public/hooks/send-reminders'
-      fullPath: '/api/public/hooks/send-reminders'
-      preLoaderRoute: typeof ApiPublicHooksSendRemindersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -183,7 +162,6 @@ const rootRouteChildren: RootRouteChildren = {
   BookingReferenceRoute: BookingReferenceRoute,
   ToursSlugRoute: ToursSlugRoute,
   ToursIndexRoute: ToursIndexRoute,
-  ApiPublicHooksSendRemindersRoute: ApiPublicHooksSendRemindersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
