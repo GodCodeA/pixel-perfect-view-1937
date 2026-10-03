@@ -61,7 +61,9 @@ function ToursPage() {
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {isLoading
-          ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-[430px] rounded-xl" />)
+          ? Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} className="h-[430px] rounded-xl" />
+            ))
           : null}
         {visible.map((tour) => (
           <TourCard key={tour.id} tour={tour} />

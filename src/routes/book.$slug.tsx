@@ -19,11 +19,7 @@ import {
   type Departure,
 } from "@/lib/bookings";
 import { tourImage } from "@/lib/tour-images";
-import {
-  validateBookingForm,
-  validateField,
-  type BookingField,
-} from "@/lib/booking-validation";
+import { validateBookingForm, validateField, type BookingField } from "@/lib/booking-validation";
 
 type Search = { departure?: string };
 
@@ -91,7 +87,11 @@ function BookingFlow() {
     maxGuests,
   });
   const contactValid =
-    !formErrors.name && !formErrors.email && !formErrors.phone && !formErrors.whatsapp && !formErrors.notes;
+    !formErrors.name &&
+    !formErrors.email &&
+    !formErrors.phone &&
+    !formErrors.whatsapp &&
+    !formErrors.notes;
   const guestsValid = !formErrors.guests;
 
   function setField(field: BookingField, value: string, setter: (v: string) => void) {

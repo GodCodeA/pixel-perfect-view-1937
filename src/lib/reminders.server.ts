@@ -16,7 +16,10 @@ async function adminClient() {
 /** Claims due bookings (or one specific booking) and marks each. Safe to call repeatedly. */
 export async function processReminders(bookingId?: string): Promise<SendResult[]> {
   const db = await adminClient();
-  const { data: claimed, error } = await db.rpc("claim_due_reminders", bookingId ? { _booking_id: bookingId } : {});
+  const { data: claimed, error } = await db.rpc(
+    "claim_due_reminders",
+    bookingId ? { _booking_id: bookingId } : {},
+  );
   if (error) throw new Error(`Claim failed: ${error.message}`);
   const ids = (claimed ?? []).map((r: { id: string }) => r.id);
   const results: SendResult[] = [];

@@ -19,7 +19,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Ala-Too Adventures — Mountain tours from Bishkek" },
       {
         property: "og:description",
-        content: "Check dates and book Kyrgyz mountain trips in minutes, without the back-and-forth.",
+        content:
+          "Check dates and book Kyrgyz mountain trips in minutes, without the back-and-forth.",
       },
     ],
   }),
@@ -118,7 +119,9 @@ function Home() {
               We couldn&apos;t load the tours just now. Please refresh the page.
             </p>
           ) : null}
-          {tours?.slice(0, 3).map((tour) => <TourCard key={tour.id} tour={tour} />)}
+          {tours?.slice(0, 3).map((tour) => (
+            <TourCard key={tour.id} tour={tour} />
+          ))}
         </div>
       </section>
 

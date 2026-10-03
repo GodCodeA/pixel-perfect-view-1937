@@ -90,7 +90,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Ala-Too Adventures — Mountain tours from Bishkek" },
       {
         property: "og:description",
-        content: "A guided mountain adventure booking platform for discovering tours, checking real availability and booking trips online.",
+        content:
+          "A guided mountain adventure booking platform for discovering tours, checking real availability and booking trips online.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

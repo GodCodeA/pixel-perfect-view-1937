@@ -28,10 +28,7 @@ export const bookingFormSchema = z.object({
       message: "Please enter a valid WhatsApp number, or leave it empty.",
     }),
   notes: z.string().trim().max(500, "Please keep your note under 500 characters."),
-  guests: z
-    .number()
-    .int("Guests must be a whole number.")
-    .min(1, "At least 1 guest is required."),
+  guests: z.number().int("Guests must be a whole number.").min(1, "At least 1 guest is required."),
   departureId: z.string().min(1, "Please pick a date."),
 });
 
