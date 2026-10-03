@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { validateBookingForm } from "./booking-validation";
 
 export type Tour = {
   id: string;
