@@ -63,7 +63,9 @@ function Dashboard() {
   useEffect(() => {
     const channel = supabase
       .channel("dashboard-bookings")
-      .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () => invalidate())
+      .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () =>
+        invalidate(),
+      )
       .subscribe();
     return () => {
       void supabase.removeChannel(channel);
@@ -104,12 +106,7 @@ function Dashboard() {
   const upcoming = active.filter((b) => b.departures.departure_date >= today);
   const guestsUpcoming = upcoming.reduce((sum, b) => sum + b.guests, 0);
 
-  const visible =
-    tab === "Today"
-      ? todays
-      : tab === "Upcoming"
-        ? upcoming
-        : (bookings ?? []);
+  const visible = tab === "Today" ? todays : tab === "Upcoming" ? upcoming : (bookings ?? []);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -144,7 +141,9 @@ function Dashboard() {
 
       <div className="mt-6 space-y-3">
         {isLoading
-          ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-40 rounded-xl" />)
+          ? Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-40 rounded-xl" />
+            ))
           : null}
 
         {isError ? (
