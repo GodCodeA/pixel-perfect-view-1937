@@ -84,17 +84,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Small-group hiking and yurt-stay tours in the Kyrgyz mountains, booked online in a couple of minutes.",
+          "A guided mountain adventure booking platform for discovering tours, checking real availability and booking trips online.",
       },
       { name: "author", content: "Ala-Too Adventures" },
       { property: "og:title", content: "Ala-Too Adventures — Mountain tours from Bishkek" },
       {
         property: "og:description",
-        content: "Small-group hiking and yurt-stay tours in the Kyrgyz mountains.",
+        content: "A guided mountain adventure booking platform for discovering tours, checking real availability and booking trips online.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:site_name", content: "Ala-Too Adventures" },
     ],
     links: [
       {

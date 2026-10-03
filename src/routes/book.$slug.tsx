@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   createBooking,
   NotEnoughSpotsError,
+  BookingValidationError,
   departuresQuery,
   formatDate,
   spotsLeft,
@@ -149,6 +150,8 @@ function BookingFlow() {
         toast.error("Someone just booked those spots. Please pick another date or fewer guests.");
         await queryClient.invalidateQueries({ queryKey: ["departures"] });
         setStep(0);
+      } else if (err instanceof BookingValidationError) {
+        toast.error(err.message);
       } else {
         toast.error("We couldn't save that booking. Please try again.");
       }
