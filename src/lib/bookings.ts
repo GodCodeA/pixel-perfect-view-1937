@@ -110,6 +110,7 @@ export const dashboardBookingsQuery = {
 };
 
 export class NotEnoughSpotsError extends Error {}
+export class BookingValidationError extends Error {}
 
 export async function createBooking(input: {
   tour: Tour;
@@ -121,6 +122,22 @@ export async function createBooking(input: {
   guests: number;
   notes: string;
 }) {
+  // Final validation before anything is sent to the database.
+  const errors = validateBookingForm({
+    name: input.name,
+    email: input.email,
+    phone: input.phone,
+    whatsapp: input.whatsapp,
+    notes: input.notes,
+    guests: input.guests,
+    departureId: input.departure.id,
+    maxGuests: spotsLeft(input.departure),
+  });
+  if (input.departure.departure_date < new Date().toISOString().slice(0, 10)) {
+    errors.departureId = "This date has already passed.";
+  }
+  const firstError = Object.values(errors)[0];
+  if (firstError) throw new BookingValidationError(firstError);
   // Remaining spots are updated (and overbooking blocked) by a database trigger.
   const { data, error } = await supabase
     .from("bookings")
