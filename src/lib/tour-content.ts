@@ -32,22 +32,22 @@ const content: Record<string, TourExtras> = {
   "ala-archa-day-hike": {
     itinerary: [
       {
-        time: "08:00",
-        title: "Pick-up in Bishkek",
-        body: "Meet at the meeting point and drive about 1 hour to Ala-Archa National Park.",
+        time: "07:30",
+        title: "Meet at Ala-Too Square",
+        body: "Drive about 1 hour to Ala-Archa National Park.",
       },
       {
-        time: "09:30",
+        time: "09:00",
         title: "Hike up the valley",
         body: "Steady climb along the river through juniper forest, with regular breaks.",
       },
       {
         time: "12:30",
         title: "Lunch with a view",
-        body: "Picnic lunch near the turnaround point below the glacier views.",
+        body: "Picnic lunch at the turnaround point with glacier views.",
       },
       { time: "14:00", title: "Descent", body: "Walk back down the same trail at a relaxed pace." },
-      { time: "17:30", title: "Back in Bishkek", body: "Drop-off at the meeting point." },
+      { time: "17:30", title: "Back in Bishkek", body: "Drop-off at Ala-Too Square." },
     ],
     whatToBring: baseKit,
   },
@@ -56,17 +56,17 @@ const content: Record<string, TourExtras> = {
       {
         time: "Day 1",
         title: "Bishkek to Song-Kul",
-        body: "Drive through Kochkor and over the Kalmak-Ashuu pass to the lake. Settle into the yurt camp.",
-      },
-      {
-        time: "Day 1 evening",
-        title: "Life on the jailoo",
-        body: "Short walk along the shore, dinner with the herding family hosting the camp.",
+        body: "07:00 pick-up. Drive through Kochkor and over the Kalmak-Ashuu pass to the lake and settle into the yurt camp.",
       },
       {
         time: "Day 2",
-        title: "Lakeshore walk and return",
-        body: "Morning walk or optional horse ride, then drive back to Bishkek by evening.",
+        title: "Life on the jailoo",
+        body: "Lakeshore walk or optional horse ride, dinner with the herding family hosting the camp.",
+      },
+      {
+        time: "Day 3",
+        title: "Return to Bishkek",
+        body: "Slow morning at the lake, drive back to Bishkek by evening.",
       },
     ],
     whatToBring: overnightKit,
@@ -76,17 +76,17 @@ const content: Record<string, TourExtras> = {
       {
         time: "Day 1",
         title: "Bishkek to Naryn region",
-        body: "Long scenic drive south, overnight in a guesthouse.",
+        body: "06:30 pick-up. Long scenic drive south, overnight in a guesthouse.",
       },
       {
         time: "Day 2",
-        title: "Drive to the Kel-Suu valley",
+        title: "Into the Kel-Suu valley",
         body: "Off-road drive towards the border zone and camp near the lake.",
       },
       {
         time: "Day 3",
         title: "Kel-Suu lake",
-        body: "Walk to the lake and explore the narrow gorge, return to camp.",
+        body: "Walk to the lake and explore the narrow gorge, back to camp.",
       },
       {
         time: "Day 4",
@@ -103,20 +103,14 @@ const content: Record<string, TourExtras> = {
     itinerary: [
       {
         time: "Day 1",
-        title: "Bishkek to Karakol",
-        body: "Drive along Issyk-Kul to Karakol, then up the valley to Altyn-Arashan.",
-      },
-      {
-        time: "Day 1 evening",
-        title: "Hot springs",
-        body: "Soak in the hot spring pools and overnight in a mountain guesthouse.",
+        title: "Karakol to Altyn-Arashan",
+        body: "09:00 start from Karakol. Hike up the valley, soak in the hot springs, overnight in a mountain guesthouse.",
       },
       {
         time: "Day 2",
-        title: "Valley hike",
-        body: "Hike up the valley towards views of Palatka peak.",
+        title: "Valley views and return",
+        body: "Morning walk towards views of Palatka peak, then descend to Karakol by afternoon.",
       },
-      { time: "Day 3", title: "Return", body: "Walk down to the road and drive back to Bishkek." },
     ],
     whatToBring: [...overnightKit, "Swimwear for the hot springs"],
   },
@@ -124,17 +118,19 @@ const content: Record<string, TourExtras> = {
     itinerary: [
       {
         time: "Day 1",
-        title: "Bishkek to Jyrgalan",
-        body: "Drive east past Issyk-Kul to the village of Jyrgalan. Guesthouse night.",
+        title: "Into the hills",
+        body: "09:00 start from Jyrgalan village. Trek over grassy ridges to a high camp.",
       },
-      { time: "Day 2", title: "Into the hills", body: "Trek over grassy ridges to a high camp." },
       {
-        time: "Day 3",
+        time: "Day 2",
         title: "Pass day",
         body: "The longest day: cross a high pass with wide Tian Shan views, descend to camp.",
       },
-      { time: "Day 4", title: "Valley descent", body: "Easier walk back down to the village." },
-      { time: "Day 5", title: "Return to Bishkek", body: "Drive back, arriving in the evening." },
+      {
+        time: "Day 3",
+        title: "Valley descent",
+        body: "Easier walk back down to the village by afternoon.",
+      },
     ],
     whatToBring: [...overnightKit, "Trekking poles (recommended)", "Personal sleeping bag liner"],
   },
@@ -143,17 +139,27 @@ const content: Record<string, TourExtras> = {
       {
         time: "Day 1",
         title: "Bishkek to the north shore",
-        body: "Drive to Issyk-Kul, afternoon on the beach and a lakeside guesthouse.",
+        body: "08:00 pick-up. Drive to Issyk-Kul, afternoon on the beach, lakeside guesthouse.",
       },
       {
         time: "Day 2",
         title: "Gorge walk",
-        body: "Easy walk in one of the gorges above the lake, back for an evening swim.",
+        body: "Easy walk in a gorge above the lake, evening swim.",
       },
       {
         time: "Day 3",
-        title: "Return",
-        body: "Slow morning by the lake and drive back to Bishkek.",
+        title: "Around the lake",
+        body: "Drive to the south shore, short walk in a colourful canyon.",
+      },
+      {
+        time: "Day 4",
+        title: "Mountain day",
+        body: "Day hike in a valley above the lake with views back over the water.",
+      },
+      {
+        time: "Day 5",
+        title: "Return to Bishkek",
+        body: "Slow morning by the lake and drive back.",
       },
     ],
     whatToBring: [...baseKit, "Swimwear"],
