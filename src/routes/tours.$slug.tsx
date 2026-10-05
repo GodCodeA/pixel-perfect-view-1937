@@ -1,5 +1,6 @@
 import { CANCELLATION_POLICY, tourExtras } from "@/lib/tour-content";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Backpack, Check, Clock, MapPin, Users, X, CalendarDays } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
