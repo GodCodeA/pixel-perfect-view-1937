@@ -1,6 +1,7 @@
+import { CANCELLATION_POLICY, tourExtras } from "@/lib/tour-content";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Check, Clock, MapPin, Users, X, CalendarDays } from "lucide-react";
+import { Backpack, Check, Clock, MapPin, Users, X, CalendarDays } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { departuresQuery, formatDate, spotsLeft, tourQuery } from "@/lib/bookings";
@@ -62,6 +63,7 @@ function TourDetail() {
     );
   }
 
+  const extras = tourExtras(tour.slug);
   const open = departures?.filter((d) => spotsLeft(d) > 0) ?? [];
 
   return (
@@ -138,6 +140,41 @@ function TourDetail() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </section>
+
+          {extras.itinerary.length > 0 ? (
+            <section>
+              <h2 className="font-display text-4xl">Itinerary</h2>
+              <ol className="mt-4 space-y-4 border-l border-border pl-5">
+                {extras.itinerary.map((step) => (
+                  <li key={step.time + step.title}>
+                    <p className="text-eyebrow">{step.time}</p>
+                    <p className="font-semibold">{step.title}</p>
+                    <p className="text-sm text-muted-foreground">{step.body}</p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ) : null}
+
+          <section className="grid gap-8 sm:grid-cols-2">
+            <div>
+              <h2 className="font-display text-3xl">What to bring</h2>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                {extras.whatToBring.map((i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <Backpack className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    {i}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h2 className="font-display text-3xl">Cancellation</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {CANCELLATION_POLICY}
+              </p>
             </div>
           </section>
 
