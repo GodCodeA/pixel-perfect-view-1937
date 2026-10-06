@@ -56,7 +56,7 @@ export function TourCard({
               <span className="text-foreground">
                 Next: <span className="font-semibold">{formatDate(nextDeparture.departure_date)}</span>
                 {left <= 3 ? (
-                  <span className="ml-2 font-semibold text-secondary">
+                  <span className="ml-2 font-semibold text-accent">
                     {left} {left === 1 ? "spot" : "spots"} left
                   </span>
                 ) : null}
