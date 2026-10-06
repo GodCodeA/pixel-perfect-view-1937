@@ -1,10 +1,19 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, MapPin, Users } from "lucide-react";
+import { CalendarDays, Clock, MapPin, Users } from "lucide-react";
 
-import type { Tour } from "@/lib/bookings";
+import { formatDate, spotsLeft, type Departure, type Tour } from "@/lib/bookings";
 import { tourImage } from "@/lib/tour-images";
 
-export function TourCard({ tour }: { tour: Tour }) {
+export function TourCard({
+  tour,
+  nextDeparture,
+  showAvailability = false,
+}: {
+  tour: Tour;
+  nextDeparture?: Departure | null;
+  showAvailability?: boolean;
+}) {
+  const left = nextDeparture ? spotsLeft(nextDeparture) : 0;
   return (
     <Link
       to="/tours/$slug"
@@ -40,6 +49,23 @@ export function TourCard({ tour }: { tour: Tour }) {
             <Users className="h-3.5 w-3.5" /> max {tour.max_group_size}
           </span>
         </div>
+        {showAvailability ? (
+          <div className="flex items-center gap-1.5 text-xs">
+            <CalendarDays className="h-3.5 w-3.5 text-primary" />
+            {nextDeparture ? (
+              <span className="text-foreground">
+                Next: <span className="font-semibold">{formatDate(nextDeparture.departure_date)}</span>
+                {left <= 3 ? (
+                  <span className="ml-2 font-semibold text-accent">
+                    {left} {left === 1 ? "spot" : "spots"} left
+                  </span>
+                ) : null}
+              </span>
+            ) : (
+              <span className="text-muted-foreground">No open dates right now</span>
+            )}
+          </div>
+        ) : null}
         <div className="flex items-baseline justify-between border-t border-border pt-3">
           <span className="text-sm text-muted-foreground">
             from <span className="text-lg font-bold text-foreground">${tour.price_per_person}</span>{" "}
