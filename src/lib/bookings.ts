@@ -175,3 +175,18 @@ export function formatDate(value: string) {
 export function spotsLeft(departure: Departure) {
   return Math.max(0, departure.total_spots - departure.spots_taken);
 }
+
+/** All future departures across every tour (used for availability on the Tours page). */
+export const upcomingDeparturesQuery = {
+  queryKey: ["departures", "upcoming"],
+  queryFn: async (): Promise<Departure[]> => {
+    const today = new Date().toISOString().slice(0, 10);
+    const { data, error } = await supabase
+      .from("departures")
+      .select("*")
+      .gte("departure_date", today)
+      .order("departure_date", { ascending: true });
+    if (error) throw error;
+    return (data ?? []) as Departure[];
+  },
+};
