@@ -190,3 +190,29 @@ export const upcomingDeparturesQuery = {
     return (data ?? []) as Departure[];
   },
 };
+
+export const FEW_SPOTS_THRESHOLD = 3;
+export type AvailabilityState = "available" | "few" | "full";
+
+export function availabilityOf(departure: Departure): AvailabilityState {
+  const left = spotsLeft(departure);
+  if (left <= 0) return "full";
+  if (left <= FEW_SPOTS_THRESHOLD) return "few";
+  return "available";
+}
+
+/** "Few spots left" shows the exact count; otherwise only the state is shown. */
+export function availabilityLabel(departure: Departure): string {
+  const state = availabilityOf(departure);
+  if (state === "full") return "Fully booked";
+  if (state === "few") {
+    const left = spotsLeft(departure);
+    return `Only ${left} ${left === 1 ? "spot" : "spots"} left`;
+  }
+  return "Available";
+}
+
+/** "08:00:00" → "08:00" (Bishkek time). */
+export function formatTime(value: string | null | undefined) {
+  return value ? value.slice(0, 5) : "08:00";
+}
