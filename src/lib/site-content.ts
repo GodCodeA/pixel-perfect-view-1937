@@ -56,7 +56,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Which dates are available?",
-    a: "Each tour page lists the upcoming departures that still have space, with the number of spots left. Full dates aren't shown as bookable.",
+    a: "Each tour page lists upcoming departures with their start time and status: Available, Few spots left or Fully booked. Fully booked dates can't be selected.",
   },
   {
     q: "How big are the groups?",
